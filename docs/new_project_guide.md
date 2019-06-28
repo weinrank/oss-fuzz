@@ -180,6 +180,12 @@ When build.sh script is executed, the following locations are available within t
 While files layout is fixed within a container, the environment variables are
 provided to be able to write retargetable scripts.
 
+In case your fuzz target uses [FuzzedDataProvider] class, the OSS-Fuzz build
+image has `FuzzedDataProvider.h` header installed and available for use without
+any extra options.
+
+[FuzzedDataProvider]: https://github.com/google/fuzzing/blob/master/docs/split-inputs.md#fuzzed-data-provider
+
 ### Requirements
 
 Only binaries without any extension will be accepted as targets. Extensions are reserved for other artifacts like .dict, etc.
