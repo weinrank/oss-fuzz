@@ -40,15 +40,22 @@ make
 
 #gcrypt
 (
-cd gcrypt
-tar -xvf ../libgpg-error-1.36.tar.bz2
-cd libgpg-error-1.36
-./configure --enable-static --disable-shared
+cd libgpg-error
+./autogen.sh
+if [ "$ARCHITECTURE" = 'i386' ]; then
+    ./configure -host=i386 --disable-doc --enable-static --disable-shared
+else
+    ./configure --disable-doc --enable-static --disable-shared
+fi
 make
 make install
-cd ..
+cd ../gcrypt
 ./autogen.sh
-./configure --enable-static --disable-shared --disable-doc --enable-maintainer-mode
+if [ "$ARCHITECTURE" = 'i386' ]; then
+    ./configure -host=i386 --enable-static --disable-shared --disable-doc --enable-maintainer-mode --disable-asm
+else
+    ./configure --enable-static --disable-shared --disable-doc --enable-maintainer-mode --disable-asm
+fi
 make
 )
 
@@ -63,7 +70,11 @@ make -j$(nproc) all
 (
 cd openssl
 #option to not have the same exported function poly1305_blocks as in gcrypt
-./config no-poly1305 no-shared no-threads
+if [ "$ARCHITECTURE" = 'i386' ]; then
+    setarch i386 ./config no-poly1305 no-shared no-threads -m32
+else
+    ./config no-poly1305 no-shared no-threads
+fi
 make build_generated libcrypto.a
 )
 
@@ -80,7 +91,11 @@ cd botan
 #help it find libstdc++
 cp /usr/lib/x86_64-linux-gnu/libstdc++.so.6 /usr/lib/x86_64-linux-gnu/libstdc++.so
 export LDFLAGS=$CXXFLAGS
-./configure.py --disable-shared-library
+if [ "$ARCHITECTURE" = 'i386' ]; then
+    ./configure.py --disable-shared-library --cpu x86_32
+else
+    ./configure.py --disable-shared-library
+fi
 make
 )
 

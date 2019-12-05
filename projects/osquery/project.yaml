@@ -1,0 +1,14 @@
+homepage: "https://osquery.io"
+primary_contact: "osquery@osquery.io"
+auto_ccs:
+  - "theopolis@osquery.io"
+  - "seph@kolide.co"
+  - "seph@directionless.org"
+  - "alessandro.gario@gmail.com"
+  - "tom@ritter.vg"
+  - "mhl@fb.com"
+  - "sharvil@sharvilshah.com"
+sanitizers:
+ - address
+fuzzing_engines:
+ - libfuzzer
